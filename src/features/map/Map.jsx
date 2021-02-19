@@ -5,11 +5,9 @@ import './map.scss';
 
 class Map extends Component {
     render() {
+        const { currentPosition } = this.props;
         return <div className='map-component'>
-            <GoogleMap
-                 google={this.props.google}
-                 onGoogleApi
-                 >
+            <GoogleMap google={this.props.google} onGoogleApi initialCenter={currentPosition}>
                      <Marker />
                  </GoogleMap>
         </div>;
@@ -17,5 +15,5 @@ class Map extends Component {
 }
 
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyDPZeAM2Lqy7ZMp4Mo_3Zr8F0OOmmFGU24',
+    apiKey: 'AIzaSyCDS1ORV6UWK9q_FvooyR1e-uuVTryf7hE',
 })(Map);

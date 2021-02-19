@@ -22,7 +22,7 @@ class Search extends Component {
                 <div>
                     <div className='search-option'>
                         <Input.Group compact>
-                            <input 
+                            <Input 
                               value={this.props.distance}
                               name='distance'
                               onChange={(event) => this.props.onInputChange (event)}
