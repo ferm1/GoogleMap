@@ -26,7 +26,7 @@ class Search extends Component {
                     <div className='search-option'>
                         <Input.Group compact>
                             <Input name='distance' value={this.props.distance}
-                              onChange={(event) => this.props.onInputChange (event)}
+                              onChange={(event) => this.props.onChange (event)}
                               />
                             <Select defaultValue='Distance'>
                               <Option value='Distance'>Distance (km)</Option>
