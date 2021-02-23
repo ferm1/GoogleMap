@@ -17,6 +17,11 @@ class Main extends Component {
         currentPosition: null,
         query: '',
         distance: '1',
+        searchQuery:{
+            distance: '1',
+            query:'',
+            stores:[],
+        },
     };
 
     componentDidMount(){
@@ -47,8 +52,26 @@ class Main extends Component {
             const distance = haversineInKM(lat, lng, store.latitude, store.longitude);
             return [...mappedStores, { ...store, distance }];
         }, []);
-        debugger;
         return stores;
+    }
+
+    onSearch(){
+        const { distance, query, stores } = this.state;
+        const filteredStores = this.filteredStores({ distance, query, stores});
+        const searchQuery = { distance, query, stores: filteredStores };
+        this.setState({ searchQuery });
+    }
+
+    filteredStores({ distance, query, stores }) {
+        const filteredStores = stores.filter((store) => {
+            const isStoredInRange = store.distance <= parseInt(distance);
+            if ( !query || !isStoredInRange) return isStoredInRange;
+            const isStoreQueried =
+             store.name.tolowerCase().includes(query.tolowerCase()) ||
+             store.tags.tolowerCase().includes(query.tolowerCase());
+            return isStoredInRange && isStoreQueried;
+        });
+        return filteredStores;
     }
 
     render() {
@@ -60,6 +83,7 @@ class Main extends Component {
                     query={this.state.query} 
                     distance={this.state.distance} 
                     onChange={(event) => this.onInputChange(event)}
+                    onSubmit={() => this.onSearch()}
                     />
                     <div className='search-content'>
                     <Map currentPosition={this.state.currentPosition} 
