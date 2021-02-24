@@ -18,7 +18,7 @@ class Main extends Component {
         query: '',
         distance: '1',
         searchQuery:{
-            distance: '1',
+            distance: 1,
             query:'',
             stores:[],
         },
@@ -50,19 +50,19 @@ class Main extends Component {
         const stores = data.reduce((mappedStores, store) => {
             const { lat, lng } = this.state.currentPosition;
             const distance = haversineInKM(lat, lng, store.latitude, store.longitude);
-            return [...mappedStores, { ...store, distance }];
+            return [ ...mappedStores, { ...store, distance }];
         }, []);
         return stores;
     }
 
     onSearch(){
         const { distance, query, stores } = this.state;
-        const filteredStores = this.filteredStores({ distance, query, stores});
+        const filteredStores = this.filterStores({ distance, query, stores});
         const searchQuery = { distance, query, stores: filteredStores };
         this.setState({ searchQuery });
     }
 
-    filteredStores({ distance, query, stores }) {
+    filterStores({ distance, query, stores }) {
         const filteredStores = stores.filter((store) => {
             const isStoredInRange = store.distance <= parseInt(distance);
             if ( !query || !isStoredInRange) return isStoredInRange;
@@ -86,8 +86,10 @@ class Main extends Component {
                     onSubmit={() => this.onSearch()}
                     />
                     <div className='search-content'>
-                    <Map currentPosition={this.state.currentPosition} 
-                    distance={this.state.distance}
+                    <Map 
+                    currentPosition={this.state.currentPosition} 
+                    distance={this.state.searchQuery.distance}
+                    stores={this.state.searchQuery.stores}
                     />
                     <SearchResult />
                     </div>
