@@ -38,7 +38,7 @@ class Search extends Component {
                             type='primary'
                             shape='round'
                             size='medium'
-                            htmltype='submit'
+                            htmlType='submit'
                             >
                              SEARCH
                             </Button>

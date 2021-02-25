@@ -57,18 +57,18 @@ class Main extends Component {
 
     onSearch(){
         const { distance, query, stores } = this.state;
-        const filteredStores = this.filterStores({ distance, query, stores});
+        const filteredStores = this.filteredStores({ distance, query, stores});
         const searchQuery = { distance, query, stores: filteredStores };
         this.setState({ searchQuery });
     }
 
-    filterStores({ distance, query, stores }) {
+    filteredStores({ distance, query, stores }) {
         const filteredStores = stores.filter((store) => {
             const isStoredInRange = store.distance <= parseInt(distance);
             if ( !query || !isStoredInRange) return isStoredInRange;
             const isStoreQueried =
-             store.name.tolowerCase().includes(query.tolowerCase()) ||
-             store.tags.tolowerCase().includes(query.tolowerCase());
+             store.name.toLowerCase().includes(query.toLowerCase()) ||
+             store.tags.toLowerCase().includes(query.toLowerCase());
             return isStoredInRange && isStoreQueried;
         });
         return filteredStores;
